@@ -18,7 +18,7 @@ set(ENABLE_DEVELOPER_MODE
     CACHE BOOL "Enable 'developer mode'")
 
 # Change this to false if you want to disable warnings_as_errors in developer mode
-set(OPT_WARNINGS_AS_ERRORS_DEVELOPER_DEFAULT TRUE)
+set(OPT_WARNINGS_AS_ERRORS_DEVELOPER_DEFAULT FALSE)
 
 # Add project_options v0.17.0
 # https://github.com/cpp-best-practices/project_options
@@ -111,15 +111,8 @@ add_subdirectory(src)
 option(ENABLE_TESTING "Enable the tests" ON)
 if(ENABLE_TESTING)
   enable_testing()
-  message("Building Tests. Be sure to check out test/constexpr_tests for constexpr
-testing")
+  message("Building Tests")
   add_subdirectory(test)
-endif()
-
-option(ENABLE_FUZZING "Enable the fuzz tests" OFF)
-if(ENABLE_FUZZING)
-  message("Building Fuzz Tests, using fuzzing sanitizer https://www.llvm.org/docs/LibFuzzer.html")
-  add_subdirectory(fuzz_test)
 endif()
 
 # If MSVC is being used, and ASAN is enabled, we need to set the debugger environment
@@ -134,7 +127,7 @@ set_property(DIRECTORY PROPERTY VS_STARTUP_PROJECT intro)
 
 # Add other targets that you want installed here, be default we just package the one executable
 # we know we want to ship
-package_project(TARGETS intro)
+package_project(TARGETS intro_exec)
 
 # Experience shows that explicit package naming can help make it easier to sort
 # out potential ABI related issues before they start, while helping you

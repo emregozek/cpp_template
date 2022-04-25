@@ -3,6 +3,8 @@ build/
 out/
 cmake-build-*/
 conan-cache/
+_deps/
+CMakeFiles/
 
 # User spesific settings
 CMakeUserPresets.json

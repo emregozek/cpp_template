@@ -10,7 +10,7 @@
             "name": "conf-common",
             "description": "General settings that apply to all configurations",
             "hidden": true,
-            "generator": "Ninja",
+            "generator": "Unix Makefiles",
             "binaryDir": "${sourceDir}/out/build/${presetName}",
             "installDir": "${sourceDir}/out/install/${presetName}"
         },
@@ -54,6 +54,30 @@
             }
         },
         {
+            "name": "conf-macosx-common",
+            "description": "Macosx settings for gcc and clang toolchains",
+            "hidden": true,
+            "inherits": "conf-common",
+            "condition": {
+                "type": "equals",
+                "lhs": "${hostSystemName}",
+                "rhs": "Darwin"
+            },
+            "vendor": {
+                "macFrameworkPath": [
+                    "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks"
+                ],
+                "microsoft.com/VisualStudioRemoteSettings/CMake/1.0": {
+                    "sourceDir": "$env{HOME}/.vs/$ms{projectDirName}",
+                    "intelliSenseMode": "macos-clang-x64"
+                }
+            },
+            "cacheVariables": {
+                "ENABLE_CPPCHECK_DEFAULT": "FALSE",
+                "ENABLE_CLANG_TIDY_DEFAULT": "FALSE"
+            }
+        },
+        {
             "name": "windows-msvc-debug-developer-mode",
             "displayName": "msvc Debug (Developer Mode)",
             "description": "Target Windows with the msvc compiler, debug build type",
@@ -75,7 +99,7 @@
                 "CMAKE_CXX_COMPILER": "cl",
                 "CMAKE_BUILD_TYPE": "RelWithDebInfo",
                 "ENABLE_DEVELOPER_MODE": "ON"
-             }
+            }
         },
         {
             "name": "windows-msvc-debug-user-mode",
@@ -87,7 +111,7 @@
                 "CMAKE_CXX_COMPILER": "cl",
                 "CMAKE_BUILD_TYPE": "Debug",
                 "ENABLE_DEVELOPER_MODE": "OFF"
-             }
+            }
         },
         {
             "name": "windows-msvc-release-user-mode",
@@ -99,7 +123,7 @@
                 "CMAKE_CXX_COMPILER": "cl",
                 "CMAKE_BUILD_TYPE": "RelWithDebInfo",
                 "ENABLE_DEVELOPER_MODE": "OFF"
-             }
+            }
         },
         {
             "name": "windows-clang-debug",
@@ -175,6 +199,40 @@
                 "CMAKE_C_COMPILER": "clang",
                 "CMAKE_CXX_COMPILER": "clang++",
                 "CMAKE_BUILD_TYPE": "RelWithDebInfo"
+            }
+        },
+        {
+            "name": "macosx-clang-debug",
+            "displayName": "clang Debug",
+            "description": "Target MacosX with the clang compiler, debug build type",
+            "inherits": "conf-macosx-common",
+            "cacheVariables": {
+                "CMAKE_C_COMPILER": "clang",
+                "CMAKE_CXX_COMPILER": "clang++",
+                "CMAKE_BUILD_TYPE": "Debug"
+            }
+        },
+        {
+            "name": "macosx-clang-release",
+            "displayName": "clang Release",
+            "description": "Target MacosX with the clang compiler, release build type",
+            "inherits": "conf-macosx-common",
+            "cacheVariables": {
+                "CMAKE_C_COMPILER": "clang",
+                "CMAKE_CXX_COMPILER": "clang++",
+                "CMAKE_BUILD_TYPE": "RelWithDebInfo"
+            }
+        },
+        {
+            "name": "CMakePresets.json",
+            "displayName": "Configure preset using toolchain file",
+            "description": "Sets Ninja generator, build and install directory",
+            "generator": "Ninja",
+            "binaryDir": "${sourceDir}/out/build/${presetName}",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug",
+                "CMAKE_TOOLCHAIN_FILE": "",
+                "CMAKE_INSTALL_PREFIX": "${sourceDir}/out/install/${presetName}"
             }
         }
     ],
